@@ -7,32 +7,110 @@ let displayValue = 0
 display.textContent = displayValue
 
 let numArray = []
+let working = false
+let currentOperator = '';
+let previousOperator = '';
 
 document.addEventListener('click', function(event){
     if(event.target.closest('#digit')){
-        if(display.textContent == 0){
+        if(display.textContent == 0 || working == true){
             display.textContent = event.target.textContent
+            working = false
         }else{
             display.textContent += event.target.textContent
         }
     }
     if(event.target.closest('#operator')){
+
         switch(event.target.textContent){
             case 'ac':
+                currentOperator = ''
+                previousOperator = ''
                 numArray.length = 0
                 display.textContent = 0
+                working = false
                 break;
             case '+':
+                currentOperator = '+'
                 numArray.push(parseInt(display.textContent))
                 if(numArray.length == 1){
                     display.textContent = 0
                 }else if(numArray.length > 1){
-                    display.textContent = 0
                     first = numArray.shift()
                     second = numArray.shift()
-                    newSum = add(first, second)
+                    if(previousOperator){
+                        newSum = operate(previousOperator,first, second)
+                    }else{
+                        newSum = operate(currentOperator,first, second)
+                    }
                     numArray.push(newSum)
                     display.textContent = newSum
+                    working = true
+                }
+            break;
+            case '=':
+                if(numArray.length == 1){
+                    numArray.push(parseInt(display.textContent))
+                    first = numArray.shift()
+                    second = numArray.shift()
+                    newSum = operate(currentOperator, first, second)
+                    display.textContent = newSum
+                    numArray.length = 0
+                    working = false
+                }
+            break;
+            case '-':
+                currentOperator = '-'
+                numArray.push(parseInt(display.textContent))
+                if(numArray.length == 1){
+                    display.textContent = 0
+                }else if(numArray.length > 1){
+                    first = numArray.shift()
+                    second = numArray.shift()
+                    if(previousOperator){
+                        newSum = operate(previousOperator,first, second)
+                    }else{
+                        newSum = operate(currentOperator,first, second)
+                    }
+                    numArray.push(newSum)
+                    display.textContent = newSum
+                    working = true
+                }
+                break;
+            case '*':
+                currentOperator = '*'
+                numArray.push(parseInt(display.textContent))
+                if(numArray.length == 1){
+                    display.textContent = 0
+                }else if(numArray.length > 1){
+                    first = numArray.shift()
+                    second = numArray.shift()
+                    if(previousOperator){
+                        newSum = operate(previousOperator,first, second)
+                    }else{
+                        newSum = operate(currentOperator,first, second)
+                    }
+                    numArray.push(newSum)
+                    display.textContent = newSum
+                    working = true
+                }
+                break;
+            case '/':
+                currentOperator = '/'
+                numArray.push(parseInt(display.textContent))
+                if(numArray.length == 1){
+                    display.textContent = 0
+                }else if(numArray.length > 1){
+                    first = numArray.shift()
+                    second = numArray.shift()
+                    if(previousOperator){
+                        newSum = operate(previousOperator,first, second)
+                    }else{
+                        newSum = operate(currentOperator,first, second)
+                    }
+                    numArray.push(newSum)
+                    display.textContent = newSum
+                    working = true
                 }
             break;
         }
@@ -41,18 +119,22 @@ document.addEventListener('click', function(event){
 
 
 function add(num1, num2){
+    previousOperator = '+';
     return num1 + num2;
 }
 
 function subtract(num1, num2){
+    previousOperator = '-';
     return num1 - num2;
 }
 
 function multiply(num1, num2){
+    previousOperator = '*';
     return num1 * num2;
 }
 
 function divide(num1, num2){
+    previousOperator = '/';
     return num1 / num2;
 }
 
@@ -60,16 +142,12 @@ function divide(num1, num2){
 function operate(operator, num1, num2){
     switch(operator){
         case '+':
-            add(num1, num2);
-            break;
+            return add(num1, num2);
         case '-':
-            subtract(num1, num2)
-            break;
+            return subtract(num1, num2)
         case '*':
-            multiply(num1, num2)
-            break;
+            return multiply(num1, num2)
         case '/':
-            divide(num1, num2)
-             break;
+            return divide(num1, num2)
     }
 }
