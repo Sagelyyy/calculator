@@ -31,6 +31,7 @@ document.addEventListener('click', function(event){
                 working = false
                 break;
             case '+':
+                previousOperator = currentOperator
                 currentOperator = '+'
                 numArray.push(parseInt(display.textContent))
                 if(numArray.length == 1){
@@ -60,6 +61,7 @@ document.addEventListener('click', function(event){
                 }
             break;
             case '-':
+                previousOperator = currentOperator
                 currentOperator = '-'
                 numArray.push(parseInt(display.textContent))
                 if(numArray.length == 1){
@@ -78,6 +80,7 @@ document.addEventListener('click', function(event){
                 }
                 break;
             case '*':
+                previousOperator = currentOperator
                 currentOperator = '*'
                 numArray.push(parseInt(display.textContent))
                 if(numArray.length == 1){
@@ -96,6 +99,7 @@ document.addEventListener('click', function(event){
                 }
                 break;
             case '/':
+                previousOperator = currentOperator
                 currentOperator = '/'
                 numArray.push(parseInt(display.textContent))
                 if(numArray.length == 1){
