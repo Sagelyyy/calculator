@@ -1,4 +1,21 @@
 
+const nums = document.querySelectorAll('#digit')
+const operators = document.querySelectorAll('#operator')
+const display = document.querySelector('#display')
+
+let displayValue = 0
+display.textContent = displayValue
+
+document.addEventListener('click', function(event){
+    if(event.target.closest('#digit')){
+        if(display.textContent == 0){
+            display.textContent = event.target.textContent
+        }else{
+            display.textContent += event.target.textContent
+        }
+    }
+})
+
 
 function add(num1, num2){
     return num1 + num2;
