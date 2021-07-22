@@ -56,7 +56,7 @@ p { margin-top: 17px; }
 }
 
 .zero {
-    flex-grow: 0.85;
+    flex-grow: 0.8498;
     flex-shrink: 3;
 }
 
@@ -67,5 +67,7 @@ p { margin-top: 17px; }
 .operator:hover{
     background-color: #2460A7FF;
 }
+
+
 
 

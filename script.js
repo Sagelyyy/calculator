@@ -123,9 +123,21 @@ document.addEventListener('click', function(event){
                 }
                 break;
             case '.':
-                let numTemp = parseInt(pardisplay.textContent.toFixed(2))
+                let numTemp = parseInt(display.textContent.toFixed(2))
                 display.textContent = numTemp;
                 break;
+
+            case '%':
+                let percentTemp = divide(parseInt(display.textContent), 100)
+                display.textContent = percentTemp.toFixed(2)
+                break;
+
+            case '+/-':
+                if(parseInt(display.textContent) > 0){
+                    display.textContent = -Math.abs(parseInt(display.textContent))
+                }else{
+                    display.textContent = Math.abs(parseInt(display.textContent))
+                }
         }
     }
 })
