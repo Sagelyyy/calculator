@@ -7,13 +7,14 @@ let displayValue = 0
 display.textContent = displayValue
 
 let numArray = []
+let summed = false
 let working = false
+let isDecimal = false;
 let currentOperator = '';
 let previousOperator = '';
-let isDecimal = false;
+let digitCount = 0
 
 document.addEventListener('click', function(event){
-    console.log(event.target.textContent)
     if(event.target.closest('#digit')){
         switch(event.target.textContent){
             case '0':
@@ -26,10 +27,13 @@ document.addEventListener('click', function(event){
             case '7':
             case '8':
             case '9': 
-                if(display.textContent == 0 || working == true){
+                if(display.textContent == 0 || working == true || summed == true){
+                    digitCount++
                     display.textContent = event.target.textContent
                     working = false
-                }else{
+                    summed = false
+                }else if(digitCount < 11){
+                    digitCount++
                     display.textContent += event.target.textContent
                 }
             break;
@@ -48,14 +52,16 @@ document.addEventListener('click', function(event){
 
         switch(event.target.textContent){
             case 'ac':
-                currentOperator = ''
-                previousOperator = ''
-                numArray.length = 0
-                display.textContent = 0
-                working = false
-                isDecimal = false
+                digitCount = 0;
+                currentOperator = '';
+                previousOperator = '';
+                numArray.length = 0;
+                display.textContent = 0;
+                working = false;
+                isDecimal = false;
                 break;
             case '+':
+                digitCount = 0;
                 previousOperator = currentOperator
                 currentOperator = '+'
                     numArray.push(parseFloat(display.textContent))
@@ -71,26 +77,32 @@ document.addEventListener('click', function(event){
                     }
                     numArray.push(newSum)
                     display.textContent = newSum
-                    working = true
+
                 }
+                working = true
             break;
             case '=':
+                let isExponent = false
+                digitCount = 0;
+                summed = true
                 if(numArray.length == 1){
                     numArray.push(parseFloat(display.textContent))
                     first = numArray.shift()
                     second = numArray.shift()
                     newSum = operate(currentOperator, first, second)
-                        if(Number.isInteger(newSum)){
-                            display.textContent = newSum
-                        } else{
-                            display.textContent = newSum.toFixed(2)
+                    if(newSum.toString().length > 11){
+                        display.textContent = newSum.toExponential(5)
+                        isExponent = true
                     }
-                    
+                    if(isExponent == false){
+                        display.textContent = newSum
+                    }
                     numArray.length = 0
-                    working = false
                 }
+            isExponent = false
             break;
             case '-':
+                digitCount = 0;
                 previousOperator = currentOperator
                 currentOperator = '-'
                 numArray.push(parseFloat(display.textContent))
@@ -110,6 +122,7 @@ document.addEventListener('click', function(event){
                 }
                 break;
             case '*':
+                digitCount = 0;
                 previousOperator = currentOperator
                 currentOperator = '*'
                 numArray.push(parseFloat(display.textContent))
@@ -129,6 +142,7 @@ document.addEventListener('click', function(event){
                 }
                 break;
             case '/':
+                digitCount = 0;
                 previousOperator = currentOperator
                 currentOperator = '/'
                 numArray.push(parseFloat(display.textContent))
