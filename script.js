@@ -10,14 +10,38 @@ let numArray = []
 let working = false
 let currentOperator = '';
 let previousOperator = '';
+let isDecimal = false;
 
 document.addEventListener('click', function(event){
+    console.log(event.target.textContent)
     if(event.target.closest('#digit')){
-        if(display.textContent == 0 || working == true){
-            display.textContent = event.target.textContent
-            working = false
-        }else{
-            display.textContent += event.target.textContent
+        switch(event.target.textContent){
+            case '0':
+            case '1':
+            case '2':
+            case '3': 
+            case '4':
+            case '5':
+            case '6': 
+            case '7':
+            case '8':
+            case '9': 
+                if(display.textContent == 0 || working == true){
+                    display.textContent = event.target.textContent
+                    working = false
+                }else{
+                    display.textContent += event.target.textContent
+                }
+            break;
+            case '.':
+                if(display.textContent == 0 && display.textContent != '0.'){
+                    isDecimal = true
+                    display.textContent += event.target.textContent
+                }else if(display.textContent > 0 && isDecimal == false){
+                    isDecimal = true
+                    display.textContent += event.target.textContent
+                }
+            break;
         }
     }
     if(event.target.closest('#operator')){
@@ -29,6 +53,7 @@ document.addEventListener('click', function(event){
                 numArray.length = 0
                 display.textContent = 0
                 working = false
+                isDecimal = false
                 break;
             case '+':
                 previousOperator = currentOperator
@@ -121,10 +146,6 @@ document.addEventListener('click', function(event){
                     display.textContent = newSum
                     working = true
                 }
-                break;
-            case '.':
-                let numTemp = parseInt(display.textContent.toFixed(2))
-                display.textContent = numTemp;
                 break;
 
             case '%':
