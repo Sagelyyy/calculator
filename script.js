@@ -33,7 +33,7 @@ document.addEventListener('click', function(event){
             case '+':
                 previousOperator = currentOperator
                 currentOperator = '+'
-                numArray.push(parseInt(display.textContent))
+                    numArray.push(parseFloat(display.textContent))
                 if(numArray.length == 1){
                     display.textContent = 0
                 }else if(numArray.length > 1){
@@ -51,11 +51,16 @@ document.addEventListener('click', function(event){
             break;
             case '=':
                 if(numArray.length == 1){
-                    numArray.push(parseInt(display.textContent))
+                    numArray.push(parseFloat(display.textContent))
                     first = numArray.shift()
                     second = numArray.shift()
                     newSum = operate(currentOperator, first, second)
-                    display.textContent = newSum
+                        if(Number.isInteger(newSum)){
+                            display.textContent = newSum
+                        } else{
+                            display.textContent = newSum.toFixed(2)
+                    }
+                    
                     numArray.length = 0
                     working = false
                 }
@@ -63,7 +68,7 @@ document.addEventListener('click', function(event){
             case '-':
                 previousOperator = currentOperator
                 currentOperator = '-'
-                numArray.push(parseInt(display.textContent))
+                numArray.push(parseFloat(display.textContent))
                 if(numArray.length == 1){
                     display.textContent = 0
                 }else if(numArray.length > 1){
@@ -82,7 +87,7 @@ document.addEventListener('click', function(event){
             case '*':
                 previousOperator = currentOperator
                 currentOperator = '*'
-                numArray.push(parseInt(display.textContent))
+                numArray.push(parseFloat(display.textContent))
                 if(numArray.length == 1){
                     display.textContent = 0
                 }else if(numArray.length > 1){
@@ -101,7 +106,7 @@ document.addEventListener('click', function(event){
             case '/':
                 previousOperator = currentOperator
                 currentOperator = '/'
-                numArray.push(parseInt(display.textContent))
+                numArray.push(parseFloat(display.textContent))
                 if(numArray.length == 1){
                     display.textContent = 0
                 }else if(numArray.length > 1){
@@ -116,7 +121,11 @@ document.addEventListener('click', function(event){
                     display.textContent = newSum
                     working = true
                 }
-            break;
+                break;
+            case '.':
+                let numTemp = parseInt(pardisplay.textContent.toFixed(2))
+                display.textContent = numTemp;
+                break;
         }
     }
 })
